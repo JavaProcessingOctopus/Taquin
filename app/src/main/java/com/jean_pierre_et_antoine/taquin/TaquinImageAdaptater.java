@@ -3,6 +3,7 @@ package com.jean_pierre_et_antoine.taquin;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,29 +16,33 @@ class TaquinImageAdapter extends BaseAdapter {
     private Context mContext;
     private Bitmap[][] bouts;
     private Bitmap missing;
+    private int sL; //squareLenght
 
     public void init(){
         Bitmap img = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.android);
+
+
         int width = img.getWidth();
         int height = img.getHeight();
-        bouts = new Bitmap[3][3];
 
-        for(int i=0; i<3; i++) {
-            for (int j = 0; j < 3; j++) {
-                Bitmap unBout = Bitmap.createBitmap(img, (width / 3) * i, (height / 3) * j, width/3, height/3);
+        bouts = new Bitmap[sL][sL];
+
+        for(int i=0; i<sL; i++) {
+            for (int j = 0; j < sL; j++) {
+                Bitmap unBout = Bitmap.createBitmap(img, (width / sL) * i, (height / sL) * j, width/sL, height/sL);
                 bouts[i][j] = unBout;
             }
         }
-        missing = bouts[2][2];
-        bouts[2][2] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+        missing = bouts[sL-1][sL-1];
+        bouts[sL-1][sL-1] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
     }
 
     public void shuffle(){
         for(int cycle=0; cycle < 20; cycle++){
-            int i = (int) (Math.random() * 3);
-            int j = (int) (Math.random() * 3);
-            int k = (int) (Math.random() * 3);
-            int l = (int) (Math.random() * 3);
+            int i = (int) (Math.random() * sL);
+            int j = (int) (Math.random() * sL);
+            int k = (int) (Math.random() * sL);
+            int l = (int) (Math.random() * sL);
             Bitmap tmp;
             //swap
             tmp = bouts[i][j];
@@ -47,7 +52,7 @@ class TaquinImageAdapter extends BaseAdapter {
     }
 
     public void move(int position){
-        move(position%3, position/3);
+        move(position%sL, position/sL);
     }
 
     public void move(int posX, int posY){
@@ -64,8 +69,9 @@ class TaquinImageAdapter extends BaseAdapter {
         }
     }
 
-    public TaquinImageAdapter(Context c) {
+    public TaquinImageAdapter(Context c, int colNum) {
         mContext = c;
+        this.sL = colNum;
         init();
         shuffle();
     }
@@ -84,7 +90,7 @@ class TaquinImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return getView(position%3, position/3, convertView, parent);
+        return getView(position%sL, position/sL, convertView, parent);
     }
 
     // create a new ImageView for each item referenced by the Adapter
@@ -103,6 +109,10 @@ class TaquinImageAdapter extends BaseAdapter {
 
         imageView.setImageBitmap(bouts[posX][posY]);
         return imageView;
+    }
+
+    public int getsL(){
+        return this.sL;
     }
 
     // references to our images
