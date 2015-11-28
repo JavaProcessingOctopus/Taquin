@@ -19,6 +19,7 @@ class TaquinImageAdapter extends BaseAdapter {
     private Context mContext;
     private Bitmap[][] bouts;
     private Bitmap missing;
+    private Bitmap blankSq;
     private int sL; //squareLenght
 
     public void init(){
@@ -45,7 +46,7 @@ class TaquinImageAdapter extends BaseAdapter {
             }
         }
         missing = bouts[sL-1][sL-1];
-        bouts[sL-1][sL-1] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+        blankSq = bouts[sL-1][sL-1] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
     }
 
     public void shuffle(){
@@ -67,17 +68,30 @@ class TaquinImageAdapter extends BaseAdapter {
     }
 
     public void move(int posX, int posY){
+        Log.d("Test", "On essaye de bouger!");
+
         Bitmap tmp, empty;
 
-        if(bouts[posX+1][posY]==null) {
-
-        } else if(bouts[posX][posY+1]==null) {
-
-        } else if(bouts[posX-1][posY]==null) {
-
-        } else if(bouts[posX][posY-1]==null) {
-
+        //searching if the free square is adjacent while making shure we don't do and OutOfBound
+        if(posX+1<sL && bouts[posX+1][posY]==blankSq) {
+            tmp = bouts[posX+1][posY];
+            bouts[posX+1][posY] = bouts[posX][posY];
+            bouts[posX][posY] = tmp;
+        } else if(posY+1<sL && bouts[posX][posY+1]==blankSq) {
+            tmp = bouts[posX][posY+1];
+            bouts[posX][posY+1] = bouts[posX][posY];
+            bouts[posX][posY] = tmp;
+        } else if(posX-1>0 && bouts[posX-1][posY]==blankSq) {
+            tmp = bouts[posX-1][posY];
+            bouts[posX-1][posY] = bouts[posX][posY];
+            bouts[posX][posY] = tmp;
+        } else if(posY-1>0 && bouts[posX][posY-1]==blankSq) {
+            tmp = bouts[posX][posY-1];
+            bouts[posX][posY-1] = bouts[posX][posY];
+            bouts[posX][posY] = tmp;
         }
+        notifyDataSetChanged();
+        Log.d("Test", "On a bouger!");
     }
 
     public TaquinImageAdapter(Context c, int colNum) {
