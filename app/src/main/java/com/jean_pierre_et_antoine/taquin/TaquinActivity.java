@@ -25,7 +25,6 @@ public class TaquinActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Log.d("Test", "On a clicker!");
                 taquinImgs.move(position);
-                gridview.refreshDrawableState();
             }
         });
     }

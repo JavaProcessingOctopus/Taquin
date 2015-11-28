@@ -70,7 +70,7 @@ class TaquinImageAdapter extends BaseAdapter {
     public void move(int posX, int posY){
         Log.d("Test", "On essaye de bouger!");
 
-        Bitmap tmp, empty;
+        Bitmap tmp = null;
 
         //searching if the free square is adjacent while making shure we don't do and OutOfBound
         if(posX+1<sL && bouts[posX+1][posY]==blankSq) {
@@ -81,17 +81,16 @@ class TaquinImageAdapter extends BaseAdapter {
             tmp = bouts[posX][posY+1];
             bouts[posX][posY+1] = bouts[posX][posY];
             bouts[posX][posY] = tmp;
-        } else if(posX-1>0 && bouts[posX-1][posY]==blankSq) {
+        } else if(posX-1>=0 && bouts[posX-1][posY]==blankSq) {
             tmp = bouts[posX-1][posY];
             bouts[posX-1][posY] = bouts[posX][posY];
             bouts[posX][posY] = tmp;
-        } else if(posY-1>0 && bouts[posX][posY-1]==blankSq) {
+        } else if(posY-1>=0 && bouts[posX][posY-1]==blankSq) {
             tmp = bouts[posX][posY-1];
             bouts[posX][posY-1] = bouts[posX][posY];
             bouts[posX][posY] = tmp;
         }
         notifyDataSetChanged();
-        Log.d("Test", "On a bouger!");
     }
 
     public TaquinImageAdapter(Context c, int colNum) {
