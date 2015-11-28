@@ -18,6 +18,7 @@ import android.widget.ImageView;
 class TaquinImageAdapter extends BaseAdapter {
     private Context mContext;
     private Bitmap[][] bouts;
+    private Bitmap[][] solved;
     private Bitmap missing;
     private Bitmap blankSq;
     private int sL; //squareLenght
@@ -38,15 +39,16 @@ class TaquinImageAdapter extends BaseAdapter {
         //int width = img.getWidth();
         //int height = img.getHeight();
         bouts = new Bitmap[sL][sL];
+        solved = new Bitmap[sL][sL];
 
         for(int i=0; i<sL; i++) {
             for (int j = 0; j < sL; j++) {
                 Bitmap unBout = Bitmap.createBitmap(img, (width / sL) * i, (height / sL) * j, width/sL, height/sL);
-                bouts[i][j] = unBout;
+                solved[i][j] = bouts[i][j] = unBout;
             }
         }
         missing = bouts[sL-1][sL-1];
-        blankSq = bouts[sL-1][sL-1] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+        blankSq = solved[sL-1][sL-1] = bouts[sL-1][sL-1] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
     }
 
     public void shuffle(){
@@ -67,9 +69,18 @@ class TaquinImageAdapter extends BaseAdapter {
         move(position%sL, position/sL);
     }
 
-    public void move(int posX, int posY){
-        Log.d("Test", "On essaye de bouger!");
+    public boolean isSolved() {
+        boolean res = true;
 
+        for(int i=0; i<sL && res; i++) {
+            for (int j = 0; j < sL && res; j++) {
+                if(bouts[i][j]!=solved[i][j]) res = false;
+            }
+        }
+        return res;
+    }
+
+    public void move(int posX, int posY){
         Bitmap tmp = null;
 
         //searching if the free square is adjacent while making shure we don't do and OutOfBound
@@ -90,6 +101,11 @@ class TaquinImageAdapter extends BaseAdapter {
             bouts[posX][posY-1] = bouts[posX][posY];
             bouts[posX][posY] = tmp;
         }
+
+        if(isSolved()) {
+            bouts[sL-1][sL-1] = missing;
+        }
+
         notifyDataSetChanged();
     }
 

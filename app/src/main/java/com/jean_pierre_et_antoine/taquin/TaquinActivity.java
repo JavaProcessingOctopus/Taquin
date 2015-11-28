@@ -23,7 +23,6 @@ public class TaquinActivity extends AppCompatActivity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Log.d("Test", "On a clicker!");
                 taquinImgs.move(position);
             }
         });
