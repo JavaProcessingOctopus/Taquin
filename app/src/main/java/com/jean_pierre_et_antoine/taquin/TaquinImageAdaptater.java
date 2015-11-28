@@ -3,9 +3,12 @@ package com.jean_pierre_et_antoine.taquin;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
@@ -21,9 +24,18 @@ class TaquinImageAdapter extends BaseAdapter {
     public void init(){
         Bitmap img = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.android);
 
+        WindowManager wMan = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wMan.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
 
-        int width = img.getWidth();
-        int height = img.getHeight();
+        img = Bitmap.createScaledBitmap(img, width, height, true);
+
+
+        //int width = img.getWidth();
+        //int height = img.getHeight();
         bouts = new Bitmap[sL][sL];
 
         for(int i=0; i<sL; i++) {
