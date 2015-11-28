@@ -24,7 +24,6 @@ class TaquinImageAdapter extends BaseAdapter {
 
         int width = img.getWidth();
         int height = img.getHeight();
-
         bouts = new Bitmap[sL][sL];
 
         for(int i=0; i<sL; i++) {
@@ -76,8 +75,8 @@ class TaquinImageAdapter extends BaseAdapter {
         shuffle();
     }
 
-    public int getCount() {
-        return 9;
+    public int getCount(){
+        return sL*sL;
     }
 
     public Object getItem(int position) {
@@ -90,7 +89,9 @@ class TaquinImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return getView(position%sL, position/sL, convertView, parent);
+        int posX = position%sL;
+        int posY = position/sL;
+        return getView(posX, posY, convertView, parent);
     }
 
     // create a new ImageView for each item referenced by the Adapter
@@ -106,7 +107,6 @@ class TaquinImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-
         imageView.setImageBitmap(bouts[posX][posY]);
         return imageView;
     }
