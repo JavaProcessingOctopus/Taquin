@@ -26,14 +26,17 @@ class TaquinImageAdapter extends BaseAdapter {
     public void init(){
         Bitmap img = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.android);
 
-        WindowManager wMan = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wMan.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
+        //WindowManager wMan = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        //Display display = wMan.getDefaultDisplay();
+        //Point size = new Point();
+        //display.getSize(size);
+        //int width = size.x;
+        //int height = size.y;
 
-        img = Bitmap.createScaledBitmap(img, width, height, true);
+        int width = img.getWidth();
+        int height = img.getHeight();
+
+        //img = Bitmap.createScaledBitmap(img, width, height, true);
 
 
         //int width = img.getWidth();
@@ -52,16 +55,60 @@ class TaquinImageAdapter extends BaseAdapter {
     }
 
     public void shuffle(){
-        for(int cycle=0; cycle < 20; cycle++){
-            int i = (int) (Math.random() * sL);
-            int j = (int) (Math.random() * sL);
-            int k = (int) (Math.random() * sL);
-            int l = (int) (Math.random() * sL);
-            Bitmap tmp;
-            //swap
-            tmp = bouts[i][j];
-            bouts[i][j] =  bouts[k][l];
-            bouts[k][l] = tmp;
+        int rand;
+        Bitmap tmp;
+        int blankX, blankY;
+        blankX = blankY = sL-1;
+
+        for(int i = 0; i < 21; i++) {
+            rand = (int) (Math.random() * 4);
+            for(boolean moved = false; moved == false; /*do nothing*/) {
+                if (rand == 0) {
+                    if(isInGrid(blankX+1)) {    //check if selected adjacent square exists
+                        //switch blank square with adjacent square
+                        tmp = bouts[blankX+1][blankY];
+                        bouts[blankX+1][blankY] = bouts[blankX][blankY];
+                        bouts[blankX][blankY] = tmp;
+                        blankX++;   //update blank square position
+                        moved = true;
+                    } else {
+                        rand++;
+                    }
+                } else if (rand == 1) {
+                    if(isInGrid(blankY+1)) {    //check if selected adjacent square exists
+                        //switch blank square with adjacent square
+                        tmp = bouts[blankX][blankY+1];
+                        bouts[blankX][blankY+1] = bouts[blankX][blankY];
+                        bouts[blankX][blankY] = tmp;
+                        blankY++;
+                        moved = true;
+                    } else {
+                        rand++;
+                    }
+                } else if (rand == 2) {
+                    if(isInGrid(blankX-1)) {    //check if selected adjacent square exists
+                        //switch blank square with adjacent square
+                        tmp = bouts[blankX-1][blankY];
+                        bouts[blankX-1][blankY] = bouts[blankX][blankY];
+                        bouts[blankX][blankY] = tmp;
+                        blankX--;   //update blank square position
+                        moved = true;
+                    } else {
+                        rand++;
+                    }
+                } else if (rand == 3) {
+                    if(isInGrid(blankY-1)) {    //check if selected adjacent square exists
+                        //switch blank square with adjacent square
+                        tmp = bouts[blankX][blankY-1];
+                        bouts[blankX][blankY-1] = bouts[blankX][blankY];
+                        bouts[blankX][blankY] = tmp;
+                        blankY--;   //update blank square position
+                        moved = true;
+                    } else {
+                        rand = 0;
+                    }
+                }
+            }
         }
     }
 
@@ -78,6 +125,14 @@ class TaquinImageAdapter extends BaseAdapter {
             }
         }
         return res;
+    }
+
+    public boolean isInGrid(int pos) {
+        return (pos < sL) && (pos >= 0);
+    }
+
+    public boolean isInGrid(int posX, int posY) {
+        return isInGrid(posX) && isInGrid(posY);
     }
 
     public void move(int posX, int posY){
