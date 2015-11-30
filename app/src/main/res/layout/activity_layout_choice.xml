@@ -14,9 +14,9 @@
         android:text="2 x 2"
         android:id="@+id/button"
         android:onClick="callAs2"
-        android:layout_above="@+id/button2"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="83dp" />
+        android:layout_marginTop="84dp" />
 
     <Button
         android:layout_width="wrap_content"

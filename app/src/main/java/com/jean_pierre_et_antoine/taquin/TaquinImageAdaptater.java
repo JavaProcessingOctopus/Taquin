@@ -26,17 +26,22 @@ class TaquinImageAdapter extends BaseAdapter {
     public void init(){
         Bitmap img = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.android);
 
-        //WindowManager wMan = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        //Display display = wMan.getDefaultDisplay();
-        //Point size = new Point();
-        //display.getSize(size);
-        //int width = size.x;
-        //int height = size.y;
+        WindowManager wMan = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wMan.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        if(width < height) {
+            //width = img.getWidth();
+            int ratio = width / img.getWidth();
+            height = img.getHeight() * ratio;
+        } else {
+            int ratio = height / img.getHeight();
+            height = img.getWidth() * ratio;
+        }
 
-        int width = img.getWidth();
-        int height = img.getHeight();
-
-        //img = Bitmap.createScaledBitmap(img, width, height, true);
+        img = Bitmap.createScaledBitmap(img, width, height, true);
 
 
         //int width = img.getWidth();
@@ -60,7 +65,7 @@ class TaquinImageAdapter extends BaseAdapter {
         int blankX, blankY;
         blankX = blankY = sL-1;
 
-        for(int i = 0; i < 21; i++) {
+        for(int i = 0; i < 101; i++) {
             rand = (int) (Math.random() * 4);
             for(boolean moved = false; moved == false; /*do nothing*/) {
                 if (rand == 0) {
@@ -168,7 +173,7 @@ class TaquinImageAdapter extends BaseAdapter {
         mContext = c;
         this.sL = colNum;
         init();
-        shuffle();
+        if(isSolved()) shuffle();
     }
 
     public int getCount(){
