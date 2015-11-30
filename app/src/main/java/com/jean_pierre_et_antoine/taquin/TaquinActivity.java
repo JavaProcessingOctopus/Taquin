@@ -1,5 +1,8 @@
 package com.jean_pierre_et_antoine.taquin;
 
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +27,11 @@ public class TaquinActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 taquinImgs.move(position);
+                if(taquinImgs.isSolved()) {
+                    taquinImgs.fill();
+                    ReplayAlert alert = new ReplayAlert(taquinImgs);
+                    alert.show(getFragmentManager(), "tag");
+                }
             }
         });
     }

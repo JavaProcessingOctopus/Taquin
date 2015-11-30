@@ -17,6 +17,8 @@ import android.widget.ImageView;
  */
 class TaquinImageAdapter extends BaseAdapter {
     private Context mContext;
+    private int width;
+    private int height;
     private Bitmap[][] bouts;
     private Bitmap[][] solved;
     private Bitmap missing;
@@ -30,8 +32,8 @@ class TaquinImageAdapter extends BaseAdapter {
         Display display = wMan.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
+        width = size.x;
+        height = size.y;
         if(width < height) {
             //width = img.getWidth();
             int ratio = width / img.getWidth();
@@ -55,8 +57,7 @@ class TaquinImageAdapter extends BaseAdapter {
                 solved[i][j] = bouts[i][j] = unBout;
             }
         }
-        missing = bouts[sL-1][sL-1];
-        blankSq = solved[sL-1][sL-1] = bouts[sL-1][sL-1] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+
     }
 
     public void shuffle(){
@@ -115,6 +116,7 @@ class TaquinImageAdapter extends BaseAdapter {
                 }
             }
         }
+        notifyDataSetChanged();
     }
 
     public void move(int position){
@@ -162,10 +164,6 @@ class TaquinImageAdapter extends BaseAdapter {
             bouts[posX][posY] = tmp;
         }
 
-        if(isSolved()) {
-            bouts[sL-1][sL-1] = missing;
-        }
-
         notifyDataSetChanged();
     }
 
@@ -173,6 +171,7 @@ class TaquinImageAdapter extends BaseAdapter {
         mContext = c;
         this.sL = colNum;
         init();
+        removeSq();
         if(isSolved()) shuffle();
     }
 
@@ -220,4 +219,13 @@ class TaquinImageAdapter extends BaseAdapter {
     private Integer[] mThumbIds = {
             R.drawable.android
     };
+
+    public void fill() {
+        bouts[sL-1][sL-1] = missing;
+    }
+
+    public void removeSq() {
+        missing = bouts[sL-1][sL-1];
+        blankSq = solved[sL-1][sL-1] = bouts[sL-1][sL-1] = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+    }
 }

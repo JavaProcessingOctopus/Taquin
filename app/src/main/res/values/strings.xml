@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Taquin</string>
+    <string name="Rejouer">Rejouer?</string>
+    <string name="Oui">Oui</string>
+    <string name="Non">Non</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Yes">Yes</string>
 </resources>
