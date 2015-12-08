@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jean_pierre_et_antoine.taquin" >
+    package="com.jean_pierre_et_antoine.taquincoquin" >
 
     <application
         android:allowBackup="true"
@@ -8,14 +8,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".Menu" >
+        <activity android:name=".Accueil" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TaquinActivity" >
+        <activity
+            android:name="com.jean_pierre_et_antoine.taquincoquin.PutMeUp"
+            android:label="@string/title_activity_put_me_up"
+            android:parentActivityName="com.jean_pierre_et_antoine.taquincoquin.Accueil" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jean_pierre_et_antoine.taquincoquin.Accueil" />
         </activity>
     </application>
 

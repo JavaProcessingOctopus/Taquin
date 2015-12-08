@@ -25,9 +25,8 @@
             android:layout_height="wrap_content"
             android:text="2 x 2"
             android:id="@+id/button2"
-            android:onClick="callAs2"
+            android:onClick="debutant"
             android:layout_above="@+id/button3"
-            android:layout_alignStart="@+id/button3"
             android:layout_gravity="center_horizontal" />
 
         <Button
@@ -37,7 +36,7 @@
             android:id="@+id/button3"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:onClick="callAs3"
+            android:onClick="normal"
             android:layout_gravity="center_horizontal" />
 
         <Button
@@ -45,9 +44,8 @@
             android:layout_height="wrap_content"
             android:text="4 x 4"
             android:id="@+id/button4"
-            android:onClick="callAs4"
+            android:onClick="expert"
             android:layout_below="@+id/button3"
-            android:layout_alignStart="@+id/button3"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
@@ -60,4 +58,3 @@
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
-

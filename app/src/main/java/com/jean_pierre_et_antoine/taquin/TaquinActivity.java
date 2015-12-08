@@ -15,13 +15,15 @@ public class TaquinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_taquin);
 
         int colNum = getIntent().getIntExtra("colNum", 3);
-        GridView gridview = (GridView) findViewById(R.id.gridview);
+        final GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setNumColumns(colNum);
-        gridview.setAdapter(new TaquinImageAdapter(this, colNum));
+        final TaquinImageAdapter taquinImgs = new TaquinImageAdapter(this, colNum);
+        gridview.setAdapter(taquinImgs);
+        gridview.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
+                taquinImgs.move(position);
             }
         });
     }

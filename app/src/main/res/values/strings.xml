@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Taquin</string>
+    <string name="app_name">Taquin Coquin</string>
+    <string name="pseudo">Enter your pseudo and choose a difficulty</string>
+    <string name="debutant">2x2</string>
+    <string name="normal">3x3</string>
+    <string name="expert">4x4</string>
+    <string name="title_activity_put_me_up">Put Me Up</string>
+    <string name="Rejouer">Rejouer?</string>
+    <string name="Oui">Oui</string>
+    <string name="Non">Non</string>
 </resources>
